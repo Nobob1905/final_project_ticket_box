@@ -13,12 +13,17 @@ pluginManagement {
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://www.jitpack.io" ) }
     }
 }
 
-rootProject.name = "My Application"
+rootProject.name = "Ticket Box"
 include(":app")
  
