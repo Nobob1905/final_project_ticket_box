@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "660759893054",
+    "project_id": "ticket-box-3749b",
+    "storage_bucket": "ticket-box-3749b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660759893054:android:29aa234e44b979470f2d6f",
+        "android_client_info": {
+          "package_name": "com.final_project_ticket_box"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKdl5bA16JKErc-sZ6Ha65CfP0OP8Xiu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
