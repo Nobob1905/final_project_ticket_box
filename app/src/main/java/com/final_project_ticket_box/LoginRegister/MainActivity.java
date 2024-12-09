@@ -1,21 +1,34 @@
 package com.final_project_ticket_box.LoginRegister;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.final_project_ticket_box.HomeFragment;
+import com.final_project_ticket_box.Models.User;
+import com.final_project_ticket_box.ModelsSingleton.UserSession;
 import com.final_project_ticket_box.MyTicketFragment;
 import com.final_project_ticket_box.R;
-import com.final_project_ticket_box.SettingFragment;
+import com.final_project_ticket_box.Settings.SettingFragment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -45,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
-//        // Load sessions
+       // Load sessions
 //        loadCartSession(this);
-//        loadUserSession();
+        loadUserSession();
     }
 
     private void logOut() {
@@ -65,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         if (itemId == R.id.home) {
             selectedFragment = homeFragment;
         }
+        else if (itemId == R.id.profile) {
+            selectedFragment = settingFragment;
+        }
 
         if (selectedFragment != null) {
             fragmentManager.beginTransaction()
@@ -75,5 +91,44 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void loadUserSession() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user.isAnonymous()) {
+            return;
+        }
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user_ = snapshot.getValue(User.class);
+                UserSession.getInstance().setUser(user_);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("Users/" + user.getUid());
+
+        long maxDownloadSize = 1024 * 1024; // 1 MB
+
+        storageReference.getBytes(maxDownloadSize)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        UserSession.getInstance().setImage(bitmap);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                });
     }
 }

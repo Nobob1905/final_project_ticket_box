@@ -1,4 +1,6 @@
 package com.final_project_ticket_box;
 
-public class MyTicketFragment {
+import androidx.fragment.app.Fragment;
+
+public class MyTicketFragment extends Fragment {
 }
