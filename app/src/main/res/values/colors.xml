@@ -18,4 +18,11 @@
     <color name="imageBorderColor">#E01E7A</color>
     <color name="miniTitle">#2A2E43</color>#666464
     <color name="linearsignres">#4E4B4B</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="main_color">#252b45</color>
+    <color name="black2">#28292b</color>
+    <color name="orange">#d14706</color>
+    <color name="grey">#989797</color>
 </resources>

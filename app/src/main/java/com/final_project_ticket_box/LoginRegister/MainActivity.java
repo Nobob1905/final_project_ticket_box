@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -104,12 +105,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user_ = snapshot.getValue(User.class);
-                UserSession.getInstance().setUser(user_);
+                if (user_ != null) {
+                    UserSession.getInstance().setUser(user_);
+                } else {
+                    // Handle case where user data is not found (e.g., show an error or use a default user)
+                    Log.e("MainActivity", "User data is null for user ID: " + user.getUid());
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("MainActivity", "Failed to load user data: " + error.getMessage());
             }
         });
 
@@ -128,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
+                        Log.e("MainActivity", "Failed to download user image: " + exception.getMessage());
                     }
                 });
     }

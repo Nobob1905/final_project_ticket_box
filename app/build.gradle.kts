@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.play.services.fido)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -76,4 +77,28 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+//  Networking và API.
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+//  UI Enhancements
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+//  Paging Library
+    implementation("androidx.paging:paging-runtime:3.2.1")
+
+//  Circle Image View
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+//  Work Manager
+    implementation("androidx.work:work-runtime:2.8.1")
+
+    implementation("androidx.media3:media3-exoplayer:1.2.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.2.0")
+    implementation("androidx.media3:media3-ui:1.2.0")
+    implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+    implementation ("com.github.Dimezis:BlurView:version-2.0.3")
 }
