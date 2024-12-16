@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.final_project_ticket_box"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.final_project_ticket_box"
         minSdk = 32
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -101,4 +101,9 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.2.0")
     implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
     implementation ("com.github.Dimezis:BlurView:version-2.0.3")
+    implementation("com.google.android.exoplayer:exoplayer:2.19.0")
+
+    implementation("androidx.media3:media3-exoplayer:1.5.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.5.0")
+    implementation("androidx.media3:media3-ui:1.5.0")
 }

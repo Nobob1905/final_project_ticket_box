@@ -38,7 +38,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         }
 
         public void bind(Event event, Context context) {
-//            binding.nameTxt.setText(event.getTitle());
+            binding.nameTxt.setText(event.getTitle());
 
             RequestOptions requestOptions = new RequestOptions()
                     .transform(new CenterCrop(), new RoundedCorners(30));

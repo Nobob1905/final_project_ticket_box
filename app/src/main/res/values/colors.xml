@@ -25,4 +25,6 @@
     <color name="black2">#28292b</color>
     <color name="orange">#d14706</color>
     <color name="grey">#989797</color>
+
+    <color name="ic_launcher_background">#000000</color>
 </resources>
