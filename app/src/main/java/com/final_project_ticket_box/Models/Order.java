@@ -9,7 +9,7 @@ public class Order {
     private String customerEmail;
     private String selectedSeats;  // This will store seat positions as a string
     private String paymentMethod;
-    private Date date;
+    private String date;  // Store formatted date as a String
     private double totalPrice;
 
     // Default constructor required for Firebase
@@ -19,7 +19,7 @@ public class Order {
 
     // Constructor
     public Order(String ticketCode, String eventName, String customerName, String customerEmail,
-                 String selectedSeats, String paymentMethod, double totalPrice, Date date) {
+                 String selectedSeats, String paymentMethod, double totalPrice, String date) {
         this.ticketCode = ticketCode;
         this.eventName = eventName;
         this.customerName = customerName;
@@ -79,7 +79,7 @@ public class Order {
         this.paymentMethod = paymentMethod;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 

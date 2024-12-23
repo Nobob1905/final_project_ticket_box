@@ -34,13 +34,28 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         return new TicketViewHolder(view);
     }
 
+    public String getFormattedTime(String timestamp) {
+        // Kiểm tra độ dài chuỗi và đảm bảo rằng nó có đủ thông tin
+        if (timestamp.length() == 14) {
+            // Lấy phần giờ và phút từ chuỗi
+            String hour = timestamp.substring(8, 10);  // Giờ (HH)
+            String minute = timestamp.substring(10, 12);  // Phút (mm)
+
+            // Định dạng lại thời gian theo kiểu "00h52'"
+            return hour + "h " + minute + "'";
+        } else {
+            // Nếu chuỗi không đúng định dạng, trả về giá trị mặc định
+            return "Invalid timestamp";
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull TicketViewHolder holder, int position) {
         Ticket ticket = ticketList.get(position);
 
         holder.eventName.setText(ticket.getEventName());
         holder.bookingDate.setText("Date: " + ticket.getDate());
-        holder.bookingTime.setText("Time: " + ticket.getTicketCode().substring(8)); // Example: Extract time
+        holder.bookingTime.setText("Time: " + getFormattedTime( ticket.getDate())); // Example: Extract time
         holder.paymentMethod.setText("Payment: " + ticket.getPaymentMethod());
 
         holder.itemView.setOnClickListener(v -> listener.onTicketClick(ticket));

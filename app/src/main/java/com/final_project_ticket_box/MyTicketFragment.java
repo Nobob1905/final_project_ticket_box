@@ -84,6 +84,7 @@ public class MyTicketFragment extends Fragment {
                         String paymentMethod = orderSnapshot.child("paymentMethod").getValue(String.class);
                         String selectedSeats = orderSnapshot.child("selectedSeats").getValue(String.class);
                         String ticketCode = orderSnapshot.child("ticketCode").getValue(String.class);
+                        String date = orderSnapshot.child("date").getValue(String.class);
                         double totalPrice = orderSnapshot.child("totalPrice").getValue(Double.class);
 
                         Ticket ticket = new Ticket();
@@ -92,6 +93,7 @@ public class MyTicketFragment extends Fragment {
                         ticket.setSelectedSeats(selectedSeats);
                         ticket.setTicketCode(ticketCode);
                         ticket.setTotalPrice(totalPrice);
+                        ticket.setDate(date);
 
                         ticketList.add(ticket);
                     }

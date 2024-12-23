@@ -91,6 +91,11 @@ public class EventDetailActivity extends AppCompatActivity {
             binding.movieTimeTxt.setText(item.getDate() + " - " + item.getTime());
             binding.eventSummeryTxt.setText(item.getDescription());
 
+            binding.ShareBtn.setOnClickListener(v -> {
+                shareEvent(item);  // Gọi phương thức share khi nhấn nút share
+            });
+
+
             binding.backBtn.setOnClickListener(v -> finish());
             binding.buyTicketBtn.setOnClickListener(v -> {
                 // Tạm dừng video khi mua vé
@@ -135,6 +140,59 @@ public class EventDetailActivity extends AppCompatActivity {
             } else {
                 binding.trailerView.setVisibility(VideoView.GONE);
             }
+        }
+    }
+
+    private void shareEvent(Event item) {
+        if (item != null) {
+//            // Tạo đối tượng Intent để chia sẻ
+//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//            shareIntent.setType("text/plain");
+//
+//            // Dữ liệu chia sẻ (Title, Description, Poster)
+//            String title = item.getTitle();
+//            String description = item.getDescription();
+//            String posterUrl = item.getPoster();  // URL của poster
+//
+//            // Dữ liệu cần chia sẻ (có thể thêm poster vào dưới dạng URL)
+//            String shareText = "Check out this event!\n" + title + "\n" + description + "\n" + posterUrl;
+//
+//            // Truyền dữ liệu vào Intent
+//            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+//
+//            // Nếu bạn muốn chia sẻ poster (ảnh) thì có thể thêm:
+//            if (posterUrl != null) {
+//                Uri posterUri = Uri.parse(posterUrl);
+//                shareIntent.putExtra(Intent.EXTRA_STREAM, posterUri);
+//                shareIntent.setType("image/jpeg");  // hoặc loại hình ảnh phù hợp nếu chia sẻ ảnh
+//            }
+//
+//            // Hiển thị hộp thoại chia sẻ với các ứng dụng như Facebook, Messenger, v.v.
+//            Intent chooser = Intent.createChooser(shareIntent, "Share via");
+//            startActivity(chooser);
+
+            // Tạo đối tượng Intent để chia sẻ
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+
+            // Dữ liệu chia sẻ (Title, Description, Poster)
+            String title = item.getTitle();
+            String description = item.getDescription();
+            String posterUrl = item.getPoster();  // URL của poster
+
+            // Dữ liệu cần chia sẻ
+            String shareText = "Check out this event!\n" + title + "\n" + description + "\n" + posterUrl;
+
+            // Truyền dữ liệu vào Intent
+//            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+
+            // Truyền dữ liệu vào Intent
+            shareIntent.putExtra(Intent.EXTRA_TEXT, title); // Tiêu đề bài viết
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText); // Mô tả bài viết
+
+            // Hiển thị hộp thoại chia sẻ với các ứng dụng như Facebook, Messenger, v.v.
+            Intent chooser = Intent.createChooser(shareIntent, "Share via");
+            startActivity(chooser);
         }
     }
 }

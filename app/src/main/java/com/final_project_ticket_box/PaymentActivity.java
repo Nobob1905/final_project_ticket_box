@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,8 +80,8 @@ public class PaymentActivity extends AppCompatActivity {
         event = getIntent().getParcelableExtra("event");
         nameEvent = event.getTitle();
 
-        String generatedCode = generateEventId(nameEvent);
-        ticketCode = generatedCode.length() >= 7 ? generatedCode.substring(0, 7) : generatedCode;
+        ticketCode = generateEventId(nameEvent);
+        String generatedCode = ticketCode.length() >= 12 ? ticketCode.substring(0, 12) : ticketCode;
         customerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         customerEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -91,7 +92,7 @@ public class PaymentActivity extends AppCompatActivity {
         textCustomerEmail.setText(customerEmail);
         position = TextUtils.join(", ", selectedSeats);
         textPosition.setText(position);
-        generateQRCode(generatedCode);
+        generateQRCode(ticketCode);
         priceTxt.setText("$" + totalPrice);
         numberSelectedTxt.setText(selectedSeats.size() + " Seat Selected");
 
@@ -159,6 +160,9 @@ public class PaymentActivity extends AppCompatActivity {
 
 //         public Order(String ticketCode, String eventName, String customerName, String customerEmail,
 //                String selectedSeats, String paymentMethod, int totalPrice, Date date)
+
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
         Order order = new Order(
                 ticketCode,                 // Unique ticket code
                 nameEvent,
@@ -167,7 +171,7 @@ public class PaymentActivity extends AppCompatActivity {
                 position,                   // Selected seats (comma-separated)
                 selectedPaymentMethod,              // Payment method selected from spinner
                 totalPrice,                 // Total price
-                new Date()                  // Order date (current timestamp)
+                timeStamp                  // Order date (current timestamp)
         );
 
         // Save the order in Firestore

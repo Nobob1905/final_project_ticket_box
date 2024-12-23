@@ -108,7 +108,7 @@ public class TicketDetailActivity extends AppCompatActivity {
         ImageView qrImageView = findViewById(R.id.imageQR);
 
         // Gán dữ liệu vào các TextView
-        ticketCode = ticketCode.length() >= 7 ? ticketCode.substring(0, 7) : ticketCode;
+        ticketCode = ticketCode.length() >= 12 ? ticketCode.substring(0, 12) : ticketCode;
         ticketCodeText.setText(ticketCode);
         eventNameText.setText(eventName);
         customerNameText.setText(customerName);
