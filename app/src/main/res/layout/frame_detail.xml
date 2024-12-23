@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".Activity.FilmDetailActivity">
+    tools:context=".LoginRegister.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Traier"
+                        android:text="Trailer"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                     <RelativeLayout

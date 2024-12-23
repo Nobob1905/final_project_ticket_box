@@ -11,6 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Ticket Box"
         android:roundIcon="@mipmap/ic_launcher"
+        android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
@@ -33,6 +34,10 @@
         </activity>
 
         <activity android:name=".LoginRegister.MainActivity" />
+        <activity android:name=".SeatListActivity" />
+        <activity android:name=".PaymentActivity"/>
+        <!-- Khai báo TicketDetailActivity -->
+        <activity android:name=".TicketDetailActivity" android:exported="false" />
     </application>
 
 </manifest>

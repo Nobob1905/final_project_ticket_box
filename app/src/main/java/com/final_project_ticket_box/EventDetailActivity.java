@@ -49,6 +49,14 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (exoPlayer != null) {
+            exoPlayer.play();  // Tiếp tục phát video nếu đang tạm dừng
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (exoPlayer != null) {
@@ -85,6 +93,10 @@ public class EventDetailActivity extends AppCompatActivity {
 
             binding.backBtn.setOnClickListener(v -> finish());
             binding.buyTicketBtn.setOnClickListener(v -> {
+                // Tạm dừng video khi mua vé
+                if (exoPlayer != null) {
+                    exoPlayer.pause();  // Tạm dừng video
+                }
                 Intent intent = new Intent(EventDetailActivity.this, SeatListActivity.class);
                 intent.putExtra("event", item);
                 startActivity(intent);

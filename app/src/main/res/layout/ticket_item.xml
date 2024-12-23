@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@color/black2"
+    android:layout_margin="8dp">
+
+    <TextView
+        android:id="@+id/eventName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/bookingDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Booking Date: 2024-12-23"
+        android:textSize="14sp"
+        android:textColor="#CCCCCC"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/bookingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Booking Time: 18:00"
+        android:textSize="14sp"
+        android:textColor="#CCCCCC"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/paymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Payment Method: VNPay"
+        android:textSize="14sp"
+        android:textColor="#CCCCCC" />
+</LinearLayout>

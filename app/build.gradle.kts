@@ -27,6 +27,7 @@ android {
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -106,4 +107,8 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.5.0")
     implementation("androidx.media3:media3-exoplayer-dash:1.5.0")
     implementation("androidx.media3:media3-ui:1.5.0")
+
+//  QR code
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }

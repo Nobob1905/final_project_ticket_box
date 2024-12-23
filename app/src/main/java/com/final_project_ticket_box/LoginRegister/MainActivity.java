@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.final_project_ticket_box.HomeFragment;
+import com.final_project_ticket_box.Models.Ticket;
 import com.final_project_ticket_box.Models.User;
 import com.final_project_ticket_box.ModelsSingleton.UserSession;
 import com.final_project_ticket_box.MyTicketFragment;
@@ -30,6 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -60,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
        // Load sessions
-//        loadCartSession(this);
         loadUserSession();
     }
 
@@ -82,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         else if (itemId == R.id.profile) {
             selectedFragment = settingFragment;
         }
+        else if (itemId == R.id.ticket) {
+            selectedFragment = myTicketFragment;
+        }
 
         if (selectedFragment != null) {
             fragmentManager.beginTransaction()
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         return false;
     }
+
 
     private void loadUserSession() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

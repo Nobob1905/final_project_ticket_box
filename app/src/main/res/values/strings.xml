@@ -24,4 +24,5 @@
     <string name="login_as">Login as</string>
     <string name="update_profile">Update Profile</string>
     <string name="default_web_client_id" translatable="false">226368054818-fgh5mndc4mj7s5pb1mmrbvfnq831unci.apps.googleusercontent.com</string>
+    <string name="qr_code">qr_code</string>
 </resources>
