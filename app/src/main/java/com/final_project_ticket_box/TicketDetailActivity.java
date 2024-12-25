@@ -79,7 +79,7 @@ public class TicketDetailActivity extends AppCompatActivity {
                                 String eventName = ticketSnapshot.child("eventName").getValue(String.class);
                                 String selectedSeats = ticketSnapshot.child("selectedSeats").getValue(String.class);
                                 String paymentMethod = ticketSnapshot.child("paymentMethod").getValue(String.class);
-                                int totalPrice = ticketSnapshot.child("totalPrice").getValue(Integer.class);
+                                double totalPrice = ticketSnapshot.child("totalPrice").getValue(Double.class);
 
                                 // Hiển thị thông tin lên UI
                                 populateUI(ticketCode, customerName, customerEmail, eventName, selectedSeats, paymentMethod, totalPrice);
@@ -97,7 +97,7 @@ public class TicketDetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(String ticketCode, String customerName, String customerEmail,
-                            String eventName, String selectedSeats, String paymentMethod, int totalPrice) {
+                            String eventName, String selectedSeats, String paymentMethod, double totalPrice) {
         TextView ticketCodeText = findViewById(R.id.textIdTicket);
         TextView eventNameText = findViewById(R.id.textEvent);
         TextView customerNameText = findViewById(R.id.textCustomerName);

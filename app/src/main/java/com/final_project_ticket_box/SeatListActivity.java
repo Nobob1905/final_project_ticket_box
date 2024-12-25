@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.final_project_ticket_box.Adapter.SeatListAdapter;
 import com.final_project_ticket_box.Models.Event;
@@ -34,6 +35,7 @@ public class SeatListActivity extends AppCompatActivity {
     private int number = 0;
     private List<Integer> selectedSeatIndices = new ArrayList<>();
     private List<Integer> unavailableSeats = new ArrayList<>(); // Danh sách ghế không khả dụng
+    private  Seat selectedSeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,10 @@ public class SeatListActivity extends AppCompatActivity {
         orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                List<Integer> unavailableSeats1 = new ArrayList<>(); // Ghế không khả dụng cho RecyclerView1
+                List<Integer> unavailableSeats2 = new ArrayList<>(); // Ghế không khả dụng cho RecyclerView2
+
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     // Lấy thông tin Order từ Firebase
                     Order order = orderSnapshot.getValue(Order.class);
@@ -68,7 +74,12 @@ public class SeatListActivity extends AppCompatActivity {
                         String[] seats = order.getSelectedSeats().split(", "); // Các ghế được chọn trong đơn hàng
                         for (String seat : seats) {
                             try {
-                                unavailableSeats.add(Integer.parseInt(seat)); // Thêm ghế không khả dụng
+                                int seatNumber = Integer.parseInt(seat);
+                                if (seatNumber < 45) {
+                                    unavailableSeats1.add(seatNumber); // Ghế thuộc RecyclerView1
+                                } else {
+                                    unavailableSeats2.add(seatNumber - 45); // Ghế thuộc RecyclerView2
+                                }
                             } catch (NumberFormatException e) {
                                 Log.e("SeatListActivity", "Invalid seat number: " + seat);
                             }
@@ -76,7 +87,9 @@ public class SeatListActivity extends AppCompatActivity {
                     }
                 }
                 // Sau khi có danh sách ghế không khả dụng, khởi tạo danh sách ghế
-                initSeatsList();
+                // Khởi tạo RecyclerView với danh sách ghế không khả dụng tương ứng
+                initSeatRecyclerView(0, 45, binding.seatRecyclerview, unavailableSeats1);
+                initSeatRecyclerView(45, 90, binding.seatRecyclerview1, unavailableSeats2);
             }
 
             @Override
@@ -86,46 +99,98 @@ public class SeatListActivity extends AppCompatActivity {
         });
     }
 
-    private void initSeatsList() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 7);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return (position % 7 == 3) ? 1 : 1;
-            }
-        });
+//    private void initSeatsList() {
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+//        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                return (position % 7 == 3) ? 1 : 1;
+//            }
+//        });
+//
+//        binding.seatRecyclerview.setLayoutManager(gridLayoutManager);
+//
+//        List<Seat> seatList = new ArrayList<>();
+//        int numberSeats = 45;
+//
+//        for (int i = 0; i < numberSeats; i++) {
+//            String seatName = "";
+//            Seat.SeatStatus seatStatus;
+//
+//            if (unavailableSeats.contains(i)) {
+//                seatStatus = Seat.SeatStatus.UNAVAILABLE; // Ghế không khả dụng
+//            } else if ((i >= 33  && i <= 44)) {
+//                seatStatus = Seat.SeatStatus.VIP; // Ghế VIP
+//            } else {
+//                seatStatus = Seat.SeatStatus.AVAILABLE; // Ghế khả dụng
+//            }
+//
+//            seatList.add(new Seat(seatStatus, seatName));
+//        }
+//
+//        SeatListAdapter seatAdapter = new SeatListAdapter(seatList, this, new SeatListAdapter.SelectedSeat() {
+//            @Override
+//            public void onReturn(int position, int num) {
+//                selectedSeat = seatList.get(position);
+//
+//                if (selectedSeat.isSelected()) {
+//                    selectedSeat.setSelected(false); // Unselect the seat
+//                    selectedSeatIndices.remove(Integer.valueOf(position)); // Remove from the list of selected seats
+//                } else {
+//                    selectedSeat.setSelected(true); // Select the seat
+//                    selectedSeatIndices.add(position); // Add to the list of selected seats
+//                }
+//
+//                binding.numberSelectedTxt.setText(num + " Seat Selected");
+//                DecimalFormat df = new DecimalFormat("#.##");
+//                price = Double.parseDouble(df.format(num * event.getPrice()));
+//                number = num;
+//                binding.priceTxt.setText("$" + price);
+//            }
+//            @Override
+//            public void onPriceChanged(double newPrice) {
+//                // Cập nhật giá trong Activity khi có sự thay đổi giá ghế
+//                price = newPrice;
+//                binding.priceTxt.setText("$" + price);
+//            }
+//        }, event);
+//
+//        binding.seatRecyclerview.setAdapter(seatAdapter);
+//        binding.seatRecyclerview.setNestedScrollingEnabled(false);
+//    }
 
-        binding.seatRecyclerview.setLayoutManager(gridLayoutManager);
+    private void initSeatRecyclerView(int startIndex, int endIndex, RecyclerView recyclerView, List<Integer> unavailableSeats) {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         List<Seat> seatList = new ArrayList<>();
-        int numberSeats = 105;
-
-        for (int i = 0; i < numberSeats; i++) {
-            String seatName = "";
+        for (int i = startIndex; i < endIndex; i++) {
             Seat.SeatStatus seatStatus;
 
-            if (unavailableSeats.contains(i)) {
+            if (unavailableSeats.contains(i - startIndex)) {
                 seatStatus = Seat.SeatStatus.UNAVAILABLE; // Ghế không khả dụng
-            } else if (i >= 0 && i <= 48) {
+            } else if (i >= endIndex - 12) {
                 seatStatus = Seat.SeatStatus.VIP; // Ghế VIP
             } else {
                 seatStatus = Seat.SeatStatus.AVAILABLE; // Ghế khả dụng
             }
 
-            seatList.add(new Seat(seatStatus, seatName));
+            seatList.add(new Seat(seatStatus, ""));
         }
 
         SeatListAdapter seatAdapter = new SeatListAdapter(seatList, this, new SeatListAdapter.SelectedSeat() {
             @Override
             public void onReturn(int position, int num) {
-                Seat selectedSeat = seatList.get(position);
+                int globalPosition = position + startIndex;
 
+                Seat selectedSeat = seatList.get(position);
                 if (selectedSeat.isSelected()) {
-                    selectedSeat.setSelected(false); // Unselect the seat
-                    selectedSeatIndices.remove(Integer.valueOf(position)); // Remove from the list of selected seats
+                    selectedSeat.setSelected(false); // Unselect seat
+                    selectedSeatIndices.remove(Integer.valueOf(globalPosition));
                 } else {
-                    selectedSeat.setSelected(true); // Select the seat
-                    selectedSeatIndices.add(position); // Add to the list of selected seats
+                    selectedSeat.setSelected(true); // Select seat
+                    selectedSeatIndices.add(globalPosition);
                 }
 
                 binding.numberSelectedTxt.setText(num + " Seat Selected");
@@ -134,17 +199,16 @@ public class SeatListActivity extends AppCompatActivity {
                 number = num;
                 binding.priceTxt.setText("$" + price);
             }
+
             @Override
             public void onPriceChanged(double newPrice) {
-                // Cập nhật giá trong Activity khi có sự thay đổi giá ghế
                 price = newPrice;
                 binding.priceTxt.setText("$" + price);
             }
         }, event);
 
-        binding.seatRecyclerview.setAdapter(seatAdapter);
-        binding.seatRecyclerview.setNestedScrollingEnabled(false);
-
+        recyclerView.setAdapter(seatAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
     }
 
     private void setVariable() {

@@ -32,9 +32,6 @@
             <!-- Intent filter nếu cần -->
         </activity>
 
-        <activity android:name=".EventDetailActivity">
-            <!-- Nếu có intent filter, bạn có thể thêm vào đây -->
-        </activity>
         <activity
             android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
@@ -55,6 +52,8 @@
         <activity android:name=".PaymentActivity"/>
         <!-- Khai báo TicketDetailActivity -->
         <activity android:name=".TicketDetailActivity" android:exported="false" />
+        <!-- Thêm SearchActivity -->
+        <activity android:name=".SearchActivity" />
     </application>
 
 </manifest>

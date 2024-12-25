@@ -15,15 +15,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="48dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_height="match_parent">
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="16dp">
 
                 <ImageView
                     android:id="@+id/backBtn"
@@ -39,136 +39,170 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Selected Seats"
-                    android:textStyle="bold"
-                    android:textSize="19sp"
                     android:textColor="@color/white"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/dateRecyclerview"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:clipToPadding="false"-->
-<!--                android:paddingStart="8dp"-->
-<!--                android:paddingEnd="8dp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:layout_marginBottom="8dp"-->
-<!--                android:layout_height="match_parent" />-->
+            <!--            <androidx.recyclerview.widget.RecyclerView-->
+            <!--                android:id="@+id/dateRecyclerview"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:clipToPadding="false"-->
+            <!--                android:paddingStart="8dp"-->
+            <!--                android:paddingEnd="8dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginBottom="8dp"-->
+            <!--                android:layout_height="match_parent" />-->
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/TimeRecyclerview"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:clipToPadding="false"-->
-<!--                android:paddingStart="8dp"-->
-<!--                android:paddingEnd="8dp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:layout_marginBottom="8dp"-->
-<!--                android:layout_height="match_parent" />-->
+            <!--            <androidx.recyclerview.widget.RecyclerView-->
+            <!--                android:id="@+id/TimeRecyclerview"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:clipToPadding="false"-->
+            <!--                android:paddingStart="8dp"-->
+            <!--                android:paddingEnd="8dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginBottom="8dp"-->
+            <!--                android:layout_height="match_parent" />-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <!-- ImageView nằm dưới -->
                 <ImageView
                     android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:rotation="180"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/cinema" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/seatRecyclerview"
+                <!-- RecyclerView nằm trên -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="48dp"
-                    android:layout_marginEnd="48dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/seatRecyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:clipToPadding="false"
+                            android:paddingBottom="45dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/seatRecyclerview1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:clipToPadding="false"
+                            android:paddingBottom="45dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_marginStart="48dp"
-                android:layout_marginEnd="48dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="48dp"
+                android:gravity="center"
                 android:orientation="horizontal">
+
                 <View
 
                     android:layout_width="10dp"
-                    android:background="@drawable/ic_seat_unavailable"
-                    android:layout_height="10dp" />
+                    android:layout_height="10dp"
+                    android:background="@drawable/ic_seat_unavailable" />
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="unavailable"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="unavailable" />
+                    android:textSize="12sp" />
 
                 <View
                     android:id="@+id/view2"
                     android:layout_width="10dp"
-                    android:background="@drawable/ic_seat_available"
-                    android:layout_height="10dp" />
+                    android:layout_height="10dp"
+                    android:background="@drawable/ic_seat_available" />
 
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Regular"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="Regular" />
+                    android:textSize="12sp" />
 
                 <View
 
                     android:layout_width="10dp"
-                    android:background="@drawable/ic_seat_available_vip"
-                    android:layout_height="10dp" />
+                    android:layout_height="10dp"
+                    android:background="@drawable/ic_seat_available_vip" />
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Vip"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="Vip" />
+                    android:textSize="12sp" />
 
                 <View
 
                     android:layout_width="10dp"
-                    android:background="@drawable/ic_seat_selected"
-                    android:layout_height="10dp" />
+                    android:layout_height="10dp"
+                    android:background="@drawable/ic_seat_selected" />
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Selected"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:text="Selected" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_height="match_parent">
+                android:layout_marginEnd="16dp">
 
                 <TextView
                     android:id="@+id/priceTxt"

@@ -1,7 +1,9 @@
 package com.final_project_ticket_box;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +60,14 @@ public class HomeFragment extends Fragment {
         initBanner();
         initTopMoving();
         initUpcoming();
+
+        EditText searchEditText = binding.editTextText;
+        searchEditText.setInputType(InputType.TYPE_NULL); // Ngăn bàn phím xuất hiện
+        searchEditText.setOnClickListener(v -> {
+            // Chuyển đến trang tìm kiếm
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            startActivity(intent);
+        });
 
         return binding.getRoot(); // Return the root view of the binding object
     }

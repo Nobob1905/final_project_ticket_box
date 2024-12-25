@@ -96,7 +96,7 @@ public class SeatListAdapter extends RecyclerView.Adapter<SeatListAdapter.SeatVi
                     break;
 
                 case SELECTED:
-                    if (position >= 0 && position <= 48) {
+                    if ((position >= 33 && position <= 45) || (position >=78  && position <= 90)) {
                         // Giảm giá cho ghế VIP, nhưng không thay đổi trạng thái ghế
                         Log.d("selectedSeatNames SELECTED",position +"");
                         seat.setStatus(Seat.SeatStatus.VIP);

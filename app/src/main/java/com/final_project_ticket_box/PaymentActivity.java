@@ -38,13 +38,13 @@ import java.util.Collections;
 import java.util.Date;
 
 public class PaymentActivity extends AppCompatActivity {
-    private TextView textIdTicket, textEvent, textCustomerName, textCustomerEmail, textPosition, priceTxt, numberSelectedTxt;
+    private TextView textIdTicket, textEvent, textCustomerName, textCustomerEmail, textPosition, priceTxt, numberSelectedTxt, discountTxt;
     private Spinner spinnerPaymentMethod;
     private ArrayList<Integer> selectedSeats;
     private String ticketCode, nameEvent, customerName, customerEmail, position, selectedPaymentMethod;
     private Event event;
     private ImageView imageQR, backBtn;
-    private double totalPrice;
+    private double totalPrice, discountFromPoints;
     private FirebaseUser currentUser;
     private LoadingDialog loadingDialog;
     Button confirmPay;
@@ -66,6 +66,7 @@ public class PaymentActivity extends AppCompatActivity {
         numberSelectedTxt = findViewById(R.id.numberSelectedTxt);
         imageQR = findViewById(R.id.imageQR);
         confirmPay =  findViewById(R.id.confirm_button);
+        discountTxt = findViewById(R.id.discountTxt);  // New TextView to display the discount
 
         loadingDialog = new LoadingDialog(PaymentActivity.this, "Your order is processing");
 
@@ -74,8 +75,8 @@ public class PaymentActivity extends AppCompatActivity {
         Collections.sort(selectedSeats);
         totalPrice = getIntent().getDoubleExtra("totalPrice", 0);
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        totalPrice = Double.parseDouble(df.format(totalPrice));
+//        DecimalFormat df = new DecimalFormat("#.##");
+//        totalPrice = Double.parseDouble(df.format(totalPrice));
 
         event = getIntent().getParcelableExtra("event");
         nameEvent = event.getTitle();
@@ -93,7 +94,7 @@ public class PaymentActivity extends AppCompatActivity {
         position = TextUtils.join(", ", selectedSeats);
         textPosition.setText(position);
         generateQRCode(ticketCode);
-        priceTxt.setText("$" + totalPrice);
+//        priceTxt.setText("$" + totalPrice);
         numberSelectedTxt.setText(selectedSeats.size() + " Seat Selected");
 
 
@@ -145,12 +146,44 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+        getUserRewardPoints();
         confirmPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!currentUser.isAnonymous()) {
                     saveOrder();
                 }
+            }
+        });
+    }
+
+    private void getUserRewardPoints() {
+        // Lấy UID của người dùng đang đăng nhập
+        String userId = currentUser.getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+
+        userRef.child("rewardPoints").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int rewardPoints = task.getResult().exists() ? task.getResult().getValue(Integer.class) : 0;
+                Log.d("PaymentActivity", "Reward Points: " + rewardPoints);
+
+                // Tính toán giảm giá
+                double discountPercentage = Math.min(rewardPoints / 1000.0, 10.0); // Giảm giá tối đa 10%
+                discountFromPoints = totalPrice * (discountPercentage / 100);
+
+                // Cập nhật giá trị thanh toán sau giảm giá
+                totalPrice = totalPrice - discountFromPoints;
+                DecimalFormat df = new DecimalFormat("#.#");
+                totalPrice = Double.parseDouble(df.format(totalPrice));
+                discountFromPoints = Double.parseDouble(df.format(discountFromPoints));
+                priceTxt.setText("$" + totalPrice);
+                discountTxt.setText("Discount: $" + discountFromPoints);
+
+                // Cập nhật điểm thưởng mới sau khi thanh toán
+                int newRewardPoints = rewardPoints + (int) (totalPrice);
+                userRef.child("rewardPoints").setValue(newRewardPoints);
+            } else {
+                Log.e("Firebase", "Error getting reward points", task.getException());
             }
         });
     }
@@ -180,19 +213,6 @@ public class PaymentActivity extends AppCompatActivity {
         databaseReference.push().setValue(order)
                 .addOnSuccessListener(aVoid -> {
                     loadingDialog.dismissDialog();
-
-//                    // Show success message
-//                    new AlertDialog.Builder(PaymentActivity.this)
-//                            .setTitle("Payment Successful")
-//                            .setMessage("Your payment was successful. Returning to the home page.")
-//                            .setPositiveButton("OK", (dialog, which) -> {
-//                                // Navigate back to the home page (MainActivity)
-//                                Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear all previous Activities
-//                                startActivity(intent);
-//                                finish(); // Close the current Activity
-//                            })
-//                            .show();
                 })
                 .addOnFailureListener(e -> {
                     new AlertDialog.Builder(PaymentActivity.this)
