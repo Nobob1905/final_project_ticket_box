@@ -7,6 +7,6 @@ Event Ticket Box is an Android application that allows users to search, book tic
 - Android SDK 30 or higher
 - Firebase SDK (for real-time data and authentication)
 
-  ## Account
+## Account
 - Email:  2@gmail.com
 - Password: 12345678
